@@ -136,10 +136,11 @@ class LegendTree(GridLayout):
             color = value[2]
             # add legend (rectangle and text)
             self.legend = Legend(pos=(self.position[0], self.position[1] - count * self.size[1] * 0.05),
-                                 size=self.size,
-                                 color=color,
-                                 name=key,
-                                 value=percentage)
+                                  size=self.size,
+                                  color=color,
+                                  name=key,
+                                  value=percentage,
+                                  data_size=value[0])
             self.add_widget(self.legend)
             self.rows += 1
             count += 1
@@ -153,7 +154,7 @@ class LegendTree(GridLayout):
 
 # Class for creating Legend
 class Legend(FloatLayout):
-    def __init__(self, pos, size, color, name, value, **kwargs):
+    def __init__(self, pos, size, color, name, data_size, value, **kwargs):
         super(Legend, self).__init__(**kwargs)
 
         KOREAN_FONT = os.getcwd() + '/NanumGothic.ttf'
@@ -166,18 +167,16 @@ class Legend(FloatLayout):
             Color(*color)
             self.rect = Rectangle(pos=(pos[0] + size[0] * 1.3, pos[1] + size[1] * 0.9),
                                   size=(size[0] * 0.1, size[1] * 0.1)) #사각형 각각의 크기
-            self.label = Label(text=str("%.2f" % value + "% - " + name),
+            self.label = Label(text=str("%.2f" % value + "% - " + name +" size : " + convert_size(data_size)),
                                font_name=KOREAN_FONT,
                                pos=(pos[0] + size[0] * 1.3 + size[0]*0.5, pos[1] + size[1] * 0.9 - 30),
                                halign='left',
                                text_size=(size[1] * 2, size[1] * 0.1))
-
         self.bind(size=self._update_rect, pos=self._update_rect)
 
     def _update_rect(self, instance, value):
         self.rect.pos = (instance.pos[0] + 120, instance.pos[1] + 140) #사각형위치
         self.label.pos = (instance.pos[0] + 410, instance.pos[1] + 110) #글씨위치
-
 
 class Pie(FloatLayout):
     def __init__(self, data, position, size, **kwargs):
