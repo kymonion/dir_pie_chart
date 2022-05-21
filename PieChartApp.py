@@ -14,6 +14,26 @@ from random import random
 from math import atan2, sqrt, pow, degrees, sin, cos, radians
 
 
+def get_dir_size(path='.'):
+    total = 0
+    with os.scandir(path) as it:
+        for entry in it:
+            if entry.is_file():
+                total += entry.stat().st_size
+            elif entry.is_dir():
+                total += get_dir_size(entry.path)
+    return total
+
+def convert_size(size_bytes):
+    import math
+    if size_bytes == 0:
+        return "0B"
+    size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+    i = int(math.floor(math.log(size_bytes, 1024)))
+    p = math.pow(1024, i)
+    s = round(size_bytes / p, 2)
+    return "%s %s" % (s, size_name[i])
+
 class MainWindow(GridLayout):
     def __init__(self, **kwargs):
         super(MainWindow, self).__init__(**kwargs)
@@ -28,13 +48,17 @@ class MainWindow(GridLayout):
         #            "PyCharm": 485,
         #            "YouTube": 221}
 
-        in_data = {"Opera": (350, [.1, .1, .4, 1]),
-                   "Steam": (234, [.1, .7, .3, 1]),
-                   "Overwatch": (532, [.9, .1, .1, 1]),
-                   "PyCharm": (485, [.8, .7, .1, 1]),
-                   "YouTube": (221, [.3, .4, .9, 1])}
+        dirs = []
+        files = []
 
-        
+        in_data = {}
+
+        for item in os.listdir(os.getcwd()):
+            if os.path.isdir(item):
+                in_data[item] = (get_dir_size(item),[random(),random(),random(),random()%2+1])
+            elif os.path.isfile(item):
+                in_data[item] = (os.path.getsize(item),[random(),random(),random(),random()%2+1])
+
         position = (100, 100)
         size = (250, 250)
         button = Button(text="text", width=300)
@@ -137,11 +161,13 @@ class Legend(FloatLayout):
         self.size_hint_x = 200
         self.size_hint_y = 50
         self.name = name
+
         with self.canvas.before:
             Color(*color)
             self.rect = Rectangle(pos=(pos[0] + size[0] * 1.3, pos[1] + size[1] * 0.9),
                                   size=(size[0] * 0.1, size[1] * 0.1))
-            self.label = Label(text=str("%.2f" % value + "% - asdasd " + name),
+
+            self.label = Label(text=str("%.2f" % value + "% - " + name),
                                pos=(pos[0] + size[0] * 1.3 + size[0]*0.5, pos[1] + size[1] * 0.9 - 30),
                                halign='left',
                                text_size=(size[1], size[1] * 0.1))
