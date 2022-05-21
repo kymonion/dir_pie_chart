@@ -1,6 +1,4 @@
 import os
-import string
-
 from kivy.app import App
 
 from kivy.graphics import Ellipse, Color, Rectangle
@@ -15,6 +13,26 @@ from kivy.uix.button import Button
 from random import random
 from math import atan2, sqrt, pow, degrees, sin, cos, radians
 
+
+def get_dir_size(path='.'):
+    total = 0
+    with os.scandir(path) as it:
+        for entry in it:
+            if entry.is_file():
+                total += entry.stat().st_size
+            elif entry.is_dir():
+                total += get_dir_size(entry.path)
+    return total
+
+def convert_size(size_bytes):
+    import math
+    if size_bytes == 0:
+        return "0B"
+    size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
+    i = int(math.floor(math.log(size_bytes, 1024)))
+    p = math.pow(1024, i)
+    s = round(size_bytes / p, 2)
+    return "%s %s" % (s, size_name[i])
 
 class MainWindow(GridLayout):
     def __init__(self, **kwargs):
@@ -31,16 +49,13 @@ class MainWindow(GridLayout):
         #            "YouTube": 221}
 
 
-        in_data = {"오페라": (350, [.1, .1, .4, 1]),
-                   "스팀": (234, [.1, .7, .3, 1]),
-                   "오버워치": (532, [.9, .1, .1, 1]),
-                   "파이참": (485, [.8, .7, .1, 1]),
-                   "유튜브": (221, [.3, .4, .9, 1]),
-                   "GitHub": (120, [.4, .1, .9, 1]),
-                   "오픈소스": (300, [.3, .9, .8, 1]),
-                   "Homework": (103, [.2, .4, .4, 1]),
-                   "대구대": (420, [.9, .5, .9, 1])}
+        in_data = {}
 
+        for item in os.listdir(os.getcwd()):
+            if os.path.isdir(item):
+                in_data[item] = (get_dir_size(item),[random(),random(),random(),random()%2+1])
+            elif os.path.isfile(item):
+                in_data[item] = (os.path.getsize(item),[random(),random(),random(),random()%2+1])
 
         position = (100, 100)
         size = (250, 250)
