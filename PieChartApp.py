@@ -167,7 +167,7 @@ class Legend(FloatLayout):
             Color(*color)
             self.rect = Rectangle(pos=(pos[0] + size[0] * 1.3, pos[1] + size[1] * 0.9),
                                   size=(size[0] * 0.1, size[1] * 0.1)) #사각형 각각의 크기
-            self.label = Label(text=str("%.2f" % value + "% - " + name +" size : " + convert_size(data_size)),
+            self.label = Label(text=str("%.2f" % value + "% - " + name +" [size : " + convert_size(data_size) +"]"),
                                font_name=KOREAN_FONT,
                                pos=(pos[0] + size[0] * 1.3 + size[0]*0.5, pos[1] + size[1] * 0.9 - 30),
                                halign='left',
