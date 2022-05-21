@@ -35,7 +35,11 @@ class MainWindow(GridLayout):
                    "스팀": (234, [.1, .7, .3, 1]),
                    "오버워치": (532, [.9, .1, .1, 1]),
                    "파이참": (485, [.8, .7, .1, 1]),
-                   "유튜브": (221, [.3, .4, .9, 1])}
+                   "유튜브": (221, [.3, .4, .9, 1]),
+                   "GitHub": (120, [.4, .1, .9, 1]),
+                   "오픈소스": (300, [.3, .9, .8, 1]),
+                   "Homework": (103, [.2, .4, .4, 1]),
+                   "대구대": (420, [.9, .5, .9, 1])}
 
 
         position = (100, 100)
@@ -108,15 +112,15 @@ class LegendTree(GridLayout):
         self.rows = 1
         self.position = position
         self.size = size
-        self.row_default_height = 50
-        self.spacing = 5
+        self.row_default_height = 30
+        self.spacing = 6
 
         count = 0
         for key, value in data.items():
             percentage = value[1]
             color = value[2]
             # add legend (rectangle and text)
-            self.legend = Legend(pos=(self.position[0], self.position[1] - count * self.size[1] * 0.15),
+            self.legend = Legend(pos=(self.position[0], self.position[1] - count * self.size[1] * 0.05),
                                  size=self.size,
                                  color=color,
                                  name=key,
@@ -129,7 +133,7 @@ class LegendTree(GridLayout):
 
     def _update_rect(self, instance, value):
         self.legend.pos = (instance.parent.pos[0], instance.parent.pos[1])
-        self.pos = (instance.parent.pos[0] + 260, instance.parent.pos[1])
+        self.pos = (instance.parent.pos[0] + 260, instance.parent.pos[1] + 100)
 
 
 # Class for creating Legend
