@@ -13,6 +13,8 @@ from kivy.uix.button import Button
 from random import random
 from math import atan2, sqrt, pow, degrees, sin, cos, radians
 
+from kivy.core.window import Window
+Window.size = (1000, 600)
 
 def get_dir_size(path='.'):
     total = 0
@@ -53,15 +55,13 @@ class MainWindow(GridLayout):
 
         for item in os.listdir(os.getcwd()):
             if os.path.isdir(item):
-                in_data[item] = (get_dir_size(item),[random(),random(),random(),random()%2+1])
+                in_data[item] = (get_dir_size(item), [random(), random(), random(), (random() % 2) + 1])
             elif os.path.isfile(item):
-                in_data[item] = (os.path.getsize(item),[random(),random(),random(),random()%2+1])
+                in_data[item] = (os.path.getsize(item), [random(), random(), random(), (random() % 2) + 1])
 
         position = (100, 100)
-        size = (250, 250)
+        size = (300, 300)
 
-        button = Button(text='text', width=300)
-        self.add_widget(button)
         chart = PieChart(data=in_data, position=position, size=size, legend_enable=True)
         self.add_widget(chart)
 
@@ -78,11 +78,11 @@ class PieChart(GridLayout):
         self.cols = 2
         self.rows = 1
         self.col_force_default = True
-        self.col_default_width = 300
+        self.col_default_width = 100
         self.row_force_default = True
-        self.row_default_height = 250
+        self.row_default_height = 200
         self.size_hint_y = None
-        self.size = (600, 450)
+        self.size = (600, 500)
         self.temp = []
 
         for key, value in data.items():
@@ -148,7 +148,7 @@ class LegendTree(GridLayout):
 
     def _update_rect(self, instance, value):
         self.legend.pos = (instance.parent.pos[0], instance.parent.pos[1])
-        self.pos = (instance.parent.pos[0] + 260, instance.parent.pos[1] + 100)
+        self.pos = (instance.parent.pos[0] + 280, instance.parent.pos[1]+60) #글씨와 사각형 구조체의 위치
 
 
 # Class for creating Legend
@@ -165,18 +165,18 @@ class Legend(FloatLayout):
         with self.canvas.before:
             Color(*color)
             self.rect = Rectangle(pos=(pos[0] + size[0] * 1.3, pos[1] + size[1] * 0.9),
-                                  size=(size[0] * 0.1, size[1] * 0.1))
+                                  size=(size[0] * 0.1, size[1] * 0.1)) #사각형 각각의 크기
             self.label = Label(text=str("%.2f" % value + "% - " + name),
                                font_name=KOREAN_FONT,
                                pos=(pos[0] + size[0] * 1.3 + size[0]*0.5, pos[1] + size[1] * 0.9 - 30),
                                halign='left',
-                               text_size=(size[1], size[1] * 0.1))
+                               text_size=(size[1] * 2, size[1] * 0.1))
 
         self.bind(size=self._update_rect, pos=self._update_rect)
 
     def _update_rect(self, instance, value):
-        self.rect.pos = (instance.pos[0] + 100, instance.pos[1] + 100)
-        self.label.pos = (instance.pos[0] + 220, instance.pos[1] + 65)
+        self.rect.pos = (instance.pos[0] + 120, instance.pos[1] + 140) #사각형위치
+        self.label.pos = (instance.pos[0] + 410, instance.pos[1] + 110) #글씨위치
 
 
 class Pie(FloatLayout):
@@ -202,7 +202,7 @@ class Pie(FloatLayout):
 
     def _update_temp(self, instance, value):
         for i in self.temp:
-            i.pos = (instance.parent.pos[0] + 55, instance.parent.pos[1] + 60)
+            i.pos = (instance.parent.pos[0] + 55, instance.parent.pos[1] + 50) #원형그래프위치
 
 
 # Class for making one part of Pie
