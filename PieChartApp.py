@@ -1,4 +1,6 @@
 import os
+import string
+
 from kivy.app import App
 
 from kivy.graphics import Ellipse, Color, Rectangle
@@ -28,16 +30,20 @@ class MainWindow(GridLayout):
         #            "PyCharm": 485,
         #            "YouTube": 221}
 
-        in_data = {"Opera": (350, [.1, .1, .4, 1]),
-                   "Steam": (234, [.1, .7, .3, 1]),
-                   "Overwatch": (532, [.9, .1, .1, 1]),
-                   "PyCharm": (485, [.8, .7, .1, 1]),
-                   "YouTube": (221, [.3, .4, .9, 1])}
 
-        
+        in_data2 = []
+
+        in_data = {"오페라": (350, [.1, .1, .4, 1]),
+                   "스팀": (234, [.1, .7, .3, 1]),
+                   "오버워치": (532, [.9, .1, .1, 1]),
+                   "파이참": (485, [.8, .7, .1, 1]),
+                   "유튜브": (221, [.3, .4, .9, 1])}
+
+
         position = (100, 100)
         size = (250, 250)
-        button = Button(text="text", width=300)
+
+        button = Button(text='text', width=300)
         self.add_widget(button)
         chart = PieChart(data=in_data, position=position, size=size, legend_enable=True)
         self.add_widget(chart)
@@ -132,6 +138,8 @@ class LegendTree(GridLayout):
 class Legend(FloatLayout):
     def __init__(self, pos, size, color, name, value, **kwargs):
         super(Legend, self).__init__(**kwargs)
+
+        KOREAN_FONT = os.getcwd() + '/NanumGothic.ttf'
         self.cols = 2
         self.rows = 1
         self.size_hint_x = 200
@@ -141,7 +149,8 @@ class Legend(FloatLayout):
             Color(*color)
             self.rect = Rectangle(pos=(pos[0] + size[0] * 1.3, pos[1] + size[1] * 0.9),
                                   size=(size[0] * 0.1, size[1] * 0.1))
-            self.label = Label(text=str("%.2f" % value + "% - asdasd " + name),
+            self.label = Label(text=str("%.2f" % value + "% - " + name),
+                               font_name=KOREAN_FONT,
                                pos=(pos[0] + size[0] * 1.3 + size[0]*0.5, pos[1] + size[1] * 0.9 - 30),
                                halign='left',
                                text_size=(size[1], size[1] * 0.1))
