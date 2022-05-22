@@ -157,7 +157,10 @@ class Legend(FloatLayout):
     def __init__(self, pos, size, color, name, data_size, value, **kwargs):
         super(Legend, self).__init__(**kwargs)
 
-        KOREAN_FONT = os.getcwd() + '/NanumGothic.ttf'
+        path = os.path.join(os.path.dirname(__file__),'NanumGothic.ttf')
+
+        KOREAN_FONT = path
+
         self.cols = 2
         self.rows = 1
         self.size_hint_x = 200
@@ -269,3 +272,4 @@ class PieChartApp(App):
 
 if __name__ == '__main__':
     PieChartApp().run()
+
