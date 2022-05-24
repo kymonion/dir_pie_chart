@@ -1,4 +1,5 @@
 import os
+
 from kivy.app import App
 
 from kivy.graphics import Ellipse, Color, Rectangle
@@ -58,6 +59,9 @@ class MainWindow(GridLayout):
                 in_data[item] = (get_dir_size(item), [random(), random(), random(), (random() % 2) + 1])
             elif os.path.isfile(item):
                 in_data[item] = (os.path.getsize(item), [random(), random(), random(), (random() % 2) + 1])
+
+        sorted_dict = sorted(in_data.items(), key=lambda item: item[1], reverse=True)
+        in_data = dict(sorted_dict)
 
         position = (100, 100)
         size = (300, 300)
