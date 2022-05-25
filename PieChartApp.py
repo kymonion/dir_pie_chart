@@ -9,13 +9,12 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.floatlayout import FloatLayout
 
 from kivy.uix.label import Label
-from kivy.uix.button import Button
 
 from random import random
 from math import atan2, sqrt, pow, degrees, sin, cos, radians
 
 from kivy.core.window import Window
-Window.size = (1300, 700)
+Window.size = (1600, 900)
 
 def get_dir_size(path='.'):
     total = 0
@@ -56,7 +55,7 @@ class MainWindow(GridLayout):
 
         for item in os.listdir(os.getcwd()):
             if os.path.isdir(item):
-                in_data[item] = (get_dir_size(item), [random(), random(), random(), (random() % 2) + 1])
+                in_data[item] = (get_dir_size(item),[random(), random(), random(), (random() % 2) + 1])
             elif os.path.isfile(item):
                 in_data[item] = (os.path.getsize(item), [random(), random(), random(), (random() % 2) + 1])
 
@@ -131,7 +130,7 @@ class LegendTree(GridLayout):
         self.rows = 1
         self.position = position
         self.size = size
-        self.col_default_width = 400
+        self.col_default_width = 500
         self.row_default_height = 30
         self.spacing = 6
 
@@ -278,4 +277,3 @@ class PieChartApp(App):
 
 if __name__ == '__main__':
     PieChartApp().run()
-
