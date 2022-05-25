@@ -15,7 +15,7 @@ from random import random
 from math import atan2, sqrt, pow, degrees, sin, cos, radians
 
 from kivy.core.window import Window
-Window.size = (1000, 600)
+Window.size = (1300, 700)
 
 def get_dir_size(path='.'):
     total = 0
@@ -40,8 +40,8 @@ def convert_size(size_bytes):
 class MainWindow(GridLayout):
     def __init__(self, **kwargs):
         super(MainWindow, self).__init__(**kwargs)
-        self.cols = 1
-        self.rows = 2
+        self.cols = 2
+        self.rows = 1
         
         # in_data can take form of either formats below
         
@@ -127,10 +127,11 @@ class LegendTree(GridLayout):
 
         # Legend layout parameters.
         # Initial rows is 1, then for each next data entry new one is added.
-        self.cols = 1
+        self.cols = 2
         self.rows = 1
         self.position = position
         self.size = size
+        self.col_default_width = 400
         self.row_default_height = 30
         self.spacing = 6
 
@@ -150,6 +151,7 @@ class LegendTree(GridLayout):
             count += 1
 
         self.bind(size=self._update_rect, pos=self._update_rect)
+
 
     def _update_rect(self, instance, value):
         self.legend.pos = (instance.parent.pos[0], instance.parent.pos[1])
